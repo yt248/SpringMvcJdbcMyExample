@@ -3,10 +3,12 @@ package ru.eugene.example.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ru.eugene.example.dao.impl.StudentDaoIml;
 import ru.eugene.example.model.Student;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @Controller
@@ -34,7 +36,10 @@ public class StudentsController {
     }
 
     @PostMapping
-    public String create(@ModelAttribute("student") Student student) {
+    public String create(@ModelAttribute("student") @Valid Student student, BindingResult bindingResult) {
+        if (bindingResult.hasErrors())
+            return "student/new";
+
         studentDaoIml.insert(student);
         return "redirect:/student";
     }
@@ -45,6 +50,7 @@ public class StudentsController {
         model.addAttribute("student", studentDaoIml.findById(id));
         return "student/viewById";
     }
+
     //--------------------Удаление студенат--------------------------------------------------
     @DeleteMapping("/{id}")
     public String delete(@PathVariable("id") int id) {
@@ -61,7 +67,10 @@ public class StudentsController {
 
 
     @PatchMapping("/{id}")
-    public String update(@ModelAttribute("student") Student student, @PathVariable("id") int id) {
+    public String update(@ModelAttribute("student") @Valid Student student, BindingResult bindingResult, @PathVariable("id") int id) {
+        if (bindingResult.hasErrors())
+            return "student/edit";
+
         studentDaoIml.update(id, student);
         return "redirect:/student";
     }

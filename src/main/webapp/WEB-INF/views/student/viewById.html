@@ -5,13 +5,13 @@
     <title>Student Info</title>
 </head>
 <body>
-<p th:text="${student.getFirstname()}">VALUE</p>
-<p th:text="${student.getLastname()}">VALUE</p>
-<p th:text="${student.getEmail()}">VALUE</p>
-<p th:text="${student.getAge()}">VALUE</p>
+<p th:text="'Имя: ' + ${student.getFirstname()}">VALUE</p>
+<p th:text="'Фамилия: ' + ${student.getLastname()}">VALUE</p>
+<p th:text="'Возраст: ' + ${student.getAge()}">VALUE</p>
+<p th:text="'Email: ' + ${student.getEmail()}">VALUE</p>
 <br/>
 <form th:method="GET" th:action="@{/student/{id}/edit(id=${student.getId()})}">
-    <input type="submit" value="Обновить">
+    <input type="submit" value="Редактивать">
 </form>
 <br/>
 <form th:method="DELETE" th:action="@{/student/{id}(id=${student.getId()})}">
